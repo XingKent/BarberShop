@@ -7,10 +7,10 @@ export const config = {
   corsOrigin: env.CORS_ORIGIN ?? "http://localhost:5173",
   /** Endereço público do site, usado nos links dos e-mails. */
   appUrl: env.APP_URL ?? "http://localhost:5173",
-  shopName: env.SHOP_NAME ?? "Barbearia Navalha",
+  shopName: env.SHOP_NAME ?? "Barbearia do Gui",
   /** Ex.: smtp://usuario:senha@smtp.exemplo.com:587. Vazio = os e-mails aparecem no log da API. */
   smtpUrl: env.SMTP_URL ?? "",
-  mailFrom: env.MAIL_FROM ?? "Barbearia Navalha <nao-responda@localhost>",
+  mailFrom: env.MAIL_FROM ?? "Barbearia do Gui <nao-responda@localhost>",
   /** Conta do dono, criada na primeira inicialização. O 2FA é configurado no primeiro login. */
   ownerEmail: env.OWNER_EMAIL ?? "",
   ownerPassword: env.OWNER_PASSWORD ?? "",

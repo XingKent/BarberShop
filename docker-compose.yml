@@ -33,11 +33,11 @@ services:
       DATABASE_URL: postgresql://barbearia:${POSTGRES_PASSWORD:-barbearia}@db:5432/barbearia
       OWNER_EMAIL: ${OWNER_EMAIL:?Defina OWNER_EMAIL no arquivo .env (copie de .env.example)}
       OWNER_PASSWORD: ${OWNER_PASSWORD:?Defina OWNER_PASSWORD no arquivo .env (10 caracteres ou mais)}
-      SHOP_NAME: ${SHOP_NAME:-Barbearia Navalha}
+      SHOP_NAME: ${SHOP_NAME:-Barbearia do Gui }
       APP_URL: ${APP_URL:-http://localhost:5173}
       CORS_ORIGIN: ${APP_URL:-http://localhost:5173}
       SMTP_URL: ${SMTP_URL:-smtp://mailpit:1025}
-      MAIL_FROM: ${MAIL_FROM:-Barbearia Navalha <nao-responda@localhost>}
+      MAIL_FROM: ${MAIL_FROM:-Barbearia do Gui <nao-responda@localhost>}
     ports:
       - "3000:3000"
     depends_on:
@@ -56,7 +56,7 @@ services:
     environment:
       API_PROXY_TARGET: http://api:3000
       CHOKIDAR_USEPOLLING: "true"
-      VITE_SHOP_NAME: ${SHOP_NAME:-Barbearia Navalha}
+      VITE_SHOP_NAME: ${SHOP_NAME:-Barbearia do Gui}
       VITE_SHOP_ADDRESS: ${SHOP_ADDRESS:-}
       VITE_SHOP_PHONE: ${SHOP_PHONE:-}
     ports:
