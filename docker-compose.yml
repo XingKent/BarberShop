@@ -1,0 +1,73 @@
+# Ambiente de desenvolvimento: banco + API + front + caixa de e-mail de teste, tudo com recarga ao salvar.
+# Antes da primeira vez: copie .env.example para .env e preencha OWNER_EMAIL e OWNER_PASSWORD.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: barbearia
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-barbearia}
+      POSTGRES_DB: barbearia
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U barbearia"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Caixa de entrada de teste: recebe todos os e-mails que o sistema envia (códigos, confirmações,
+  # lembretes) e mostra em http://localhost:8025. Nenhum e-mail sai de verdade.
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports:
+      - "127.0.0.1:8025:8025"
+
+  api:
+    build:
+      context: ./api
+      target: dev
+    environment:
+      DATABASE_URL: postgresql://barbearia:${POSTGRES_PASSWORD:-barbearia}@db:5432/barbearia
+      OWNER_EMAIL: ${OWNER_EMAIL:?Defina OWNER_EMAIL no arquivo .env (copie de .env.example)}
+      OWNER_PASSWORD: ${OWNER_PASSWORD:?Defina OWNER_PASSWORD no arquivo .env (10 caracteres ou mais)}
+      SHOP_NAME: ${SHOP_NAME:-Barbearia Navalha}
+      APP_URL: ${APP_URL:-http://localhost:5173}
+      CORS_ORIGIN: ${APP_URL:-http://localhost:5173}
+      SMTP_URL: ${SMTP_URL:-smtp://mailpit:1025}
+      MAIL_FROM: ${MAIL_FROM:-Barbearia Navalha <nao-responda@localhost>}
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    volumes:
+      - ./api/src:/app/src
+      - ./api/drizzle:/app/drizzle
+
+  web:
+    build:
+      context: ./web
+      target: dev
+    environment:
+      API_PROXY_TARGET: http://api:3000
+      CHOKIDAR_USEPOLLING: "true"
+      VITE_SHOP_NAME: ${SHOP_NAME:-Barbearia Navalha}
+      VITE_SHOP_ADDRESS: ${SHOP_ADDRESS:-}
+      VITE_SHOP_PHONE: ${SHOP_PHONE:-}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    volumes:
+      - ./web/src:/app/src
+      - ./web/index.html:/app/index.html
+      # O proxy de /api mora aqui: montado, uma correção chega sem precisar reconstruir a imagem.
+      - ./web/vite.config.ts:/app/vite.config.ts
+
+volumes:
+  dbdata:
