@@ -91,6 +91,16 @@ Use `http://IP-DO-PC:5173` (no Windows, `ipconfig`, campo "Endereço IPv4"). O W
 - **Dono**: e-mail, senha (10 ou mais) e código do aplicativo autenticador. O painel mostra faturamento e dados dos clientes, por isso tem a segunda etapa.
 - Senhas guardadas com hash (scrypt). Sessão em cookie `HttpOnly`, sem token no JavaScript. Depois de 5 senhas erradas, a conta trava por 15 minutos. Pedidos que alteram dados só valem vindos do próprio site (o Host do pedido precisa ser o mesmo da origem, por isso o proxy do Vite não pode trocar o Host).
 - Trocar a senha encerra as sessões abertas da conta.
+- **Limite por IP**: 30 pedidos a cada 15 min onde dá para adivinhar senha, código ou 2FA, e 10 por hora onde o sistema manda e-mail para um endereço informado (cadastro, reenvio, "esqueci a senha"). `RATE_LIMIT=off` desliga (demonstrações). Atrás de nginx ou balanceador, `TRUST_PROXY_HOPS` (padrão 1) diz quantos servidores existem entre o visitante e a API, para contar o IP certo; use 0 se a API ficar exposta direto.
+- **Reservas**: no máximo 3 horários futuros por pessoa e até 60 dias de antecedência, para uma conta não segurar a agenda inteira.
+- **HTTPS**: o cookie de sessão passa a exigir HTTPS sozinho quando `APP_URL` começa com `https://`.
+- O nginx de produção envia cabeçalhos de segurança (CSP, bloqueio de iframe, sem referrer). A API de produção roda sem root e, no Docker de desenvolvimento, só aceita conexões do próprio computador.
+
+### Auditoria de segurança
+
+Os ataques abaixo viraram testes (`api/src/security.test.ts`) e precisam continuar sendo barrados: acessar o painel sem login ou como cliente, usar a sessão curta do 2FA como dono, ver ou cancelar o horário de outra pessoa (conta e link), campos extras no cadastro, tomar a conta do dono, cookie malformado, injeção de SQL/NoSQL, upload de SVG/HTML, força bruta de senha e de código, enchimento de caixa de e-mail e reserva em massa.
+
+Não coberto por esta versão: o bloqueio de 5 senhas erradas pode ser usado por outra pessoa para travar uma conta por 15 minutos (a troca é proposital: protege a senha), o cadastro informa se um e-mail já tem conta, e o limite por IP fica na memória de cada cópia da API.
 
 ## Rodar sem Docker
 

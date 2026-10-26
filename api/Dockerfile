@@ -22,5 +22,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 COPY --from=build /app/dist ./dist
 COPY drizzle ./drizzle
+# Sem privilégios de administrador dentro do container.
+USER node
 EXPOSE 3000
 CMD ["sh", "-c", "node dist/db/migrate.js && node dist/server.js"]

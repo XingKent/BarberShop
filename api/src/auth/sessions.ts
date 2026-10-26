@@ -78,7 +78,13 @@ export function parseCookies(header: string | undefined): Record<string, string>
     const i = part.indexOf("=");
     if (i < 0) continue;
     const key = part.slice(0, i).trim();
-    if (key) out[key] = decodeURIComponent(part.slice(i + 1).trim());
+    if (!key) continue;
+    const raw = part.slice(i + 1).trim();
+    try {
+      out[key] = decodeURIComponent(raw);
+    } catch {
+      out[key] = raw; // cookie com "%" solto: segue como texto puro (a sessão simplesmente não existe)
+    }
   }
   return out;
 }

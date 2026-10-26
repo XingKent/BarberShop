@@ -39,7 +39,7 @@ services:
       SMTP_URL: ${SMTP_URL:-smtp://mailpit:1025}
       MAIL_FROM: ${MAIL_FROM:-Barbearia do Gui <nao-responda@localhost>}
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000" # só este computador; o celular acessa pelo front (5173), que repassa /api
     depends_on:
       db:
         condition: service_healthy

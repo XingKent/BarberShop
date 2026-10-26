@@ -28,7 +28,11 @@ if (!config.smtpUrl) {
   console.warn("SMTP_URL não definido: os e-mails (códigos de login, confirmações) aparecem só neste log.");
 }
 
-const app = createApp(deps, { corsOrigin: config.corsOrigin });
+const app = createApp(deps, {
+  corsOrigin: config.corsOrigin,
+  rateLimit: config.rateLimit,
+  trustProxy: config.trustProxyHops,
+});
 const server = app.listen(config.port, () => {
   console.log(`API ouvindo na porta ${config.port}`);
 });

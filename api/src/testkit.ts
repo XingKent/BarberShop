@@ -23,7 +23,7 @@ export interface Jar {
 }
 export const newJar = (): Jar => ({ cookie: "" });
 
-export async function createTestApp() {
+export async function createTestApp(opts: { rateLimit?: boolean } = {}) {
   const client = new PGlite();
   const pg = drizzle(client, { schema });
   await migrate(pg, { migrationsFolder: "drizzle" });
@@ -38,7 +38,7 @@ export async function createTestApp() {
     shopName: "Barbearia Teste",
     appUrl: APP_URL,
   });
-  const app = createApp(deps, { corsOrigin: APP_URL });
+  const app = createApp(deps, { corsOrigin: APP_URL, rateLimit: opts.rateLimit });
   const server: Server = app.listen(0);
   const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 

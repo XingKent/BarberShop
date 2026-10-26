@@ -10,6 +10,7 @@ export default defineConfig({
     port: 5173,
     // changeOrigin: false mantém o Host que o navegador usou (ex.: o IP do PC na rede). A API compara
     // Host com Origin para aceitar pedidos do próprio site, inclusive abertos pelo celular.
-    proxy: { "/api": { target: apiTarget, changeOrigin: false } },
+    // xfwd: repassa o IP de quem acessou (o limite de tentativas da API conta por IP).
+    proxy: { "/api": { target: apiTarget, changeOrigin: false, xfwd: true } },
   },
 });
