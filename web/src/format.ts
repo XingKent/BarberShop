@@ -63,7 +63,7 @@ export const statusLabel = {
   COMPLETED: "Concluído",
 } as const;
 
-export const SHOP_NAME = import.meta.env.VITE_SHOP_NAME ?? "Barbearia do Gui";
+export const SHOP_NAME = import.meta.env.VITE_SHOP_NAME ?? "Barbearia";
 
 /** Contato exibido no rodapé. Defina VITE_SHOP_ADDRESS e VITE_SHOP_PHONE para aparecerem. */
 export const SHOP_ADDRESS: string = import.meta.env.VITE_SHOP_ADDRESS ?? "";

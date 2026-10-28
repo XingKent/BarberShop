@@ -37,7 +37,7 @@ services:
       APP_URL: ${APP_URL:-http://localhost:5173}
       CORS_ORIGIN: ${APP_URL:-http://localhost:5173}
       SMTP_URL: ${SMTP_URL:-smtp://mailpit:1025}
-      MAIL_FROM: ${MAIL_FROM:-Barbearia do Gui <nao-responda@localhost>}
+      MAIL_FROM: ${MAIL_FROM:-Barbearia<nao-responda@localhost>}
     ports:
       - "127.0.0.1:3000:3000" # só este computador; o celular acessa pelo front (5173), que repassa /api
     depends_on:
@@ -56,7 +56,7 @@ services:
     environment:
       API_PROXY_TARGET: http://api:3000
       CHOKIDAR_USEPOLLING: "true"
-      VITE_SHOP_NAME: ${SHOP_NAME:-Barbearia do Gui}
+      VITE_SHOP_NAME: ${SHOP_NAME:-Barbearia}
       VITE_SHOP_ADDRESS: ${SHOP_ADDRESS:-}
       VITE_SHOP_PHONE: ${SHOP_PHONE:-}
     ports:

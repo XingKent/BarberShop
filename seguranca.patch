@@ -299,7 +299,7 @@ index d9cc379..64fb34b 100644
    /** Endereço público do site, usado nos links dos e-mails. */
 -  appUrl: env.APP_URL ?? "http://localhost:5173",
 +  appUrl,
-   shopName: env.SHOP_NAME ?? "Barbearia do Gui",
+   shopName: env.SHOP_NAME ?? "Barbearia",
    /** Ex.: smtp://usuario:senha@smtp.exemplo.com:587. Vazio = os e-mails aparecem no log da API. */
    smtpUrl: env.SMTP_URL ?? "",
 @@ -14,6 +16,13 @@ export const config = {
@@ -623,7 +623,7 @@ index 889584d..e10dc49 100644
 +++ b/docker-compose.yml
 @@ -39,7 +39,7 @@ services:
        SMTP_URL: ${SMTP_URL:-smtp://mailpit:1025}
-       MAIL_FROM: ${MAIL_FROM:-Barbearia do Gui <nao-responda@localhost>}
+       MAIL_FROM: ${MAIL_FROM:-Barbearia<nao-responda@localhost>}
      ports:
 -      - "3000:3000"
 +      - "127.0.0.1:3000:3000" # só este computador; o celular acessa pelo front (5173), que repassa /api

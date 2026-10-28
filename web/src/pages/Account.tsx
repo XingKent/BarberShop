@@ -155,9 +155,9 @@ function DeleteAccount() {
     <form className="stack" onSubmit={(e) => void remove(e)}>
       <h2>Excluir minha conta</h2>
       <p>
-        Seu e-mail, senha, nome e celular são apagados e não dá para desfazer. Os horários que você ainda
-        tem marcados são cancelados e voltam a ficar livres. Os atendimentos já feitos continuam no
-        histórico da barbearia, sem o seu nome.
+        Seu e-mail, senha, nome e celular são apagados. 
+        Os horários que você ainda tem marcados são cancelados e voltam a ficar livres. 
+        Os atendimentos já feitos continuam no histórico da barbearia, sem o seu nome.
       </p>
       {error && (
         <p className="alert" role="alert">

@@ -67,7 +67,7 @@ Defina no `.env` o servidor de e-mail do seu provedor (Resend, Brevo, Amazon SES
 
 ```
 SMTP_URL=smtp://usuario:senha@smtp.seuprovedor.com:587
-MAIL_FROM=Barbearia Navalha <contato@seudominio.com.br>
+MAIL_FROM=Barbearia <contato@seudominio.com.br>
 APP_URL=https://seu-site.com.br
 ```
 
